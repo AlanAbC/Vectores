@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
                     double[] v3={p1i-p3i,p1j-p3j,p1k-p3k};
 
 
-                    mag1=Math.sqrt((v1[0]*v1[0])+(v1[1]*v1[1])+(v1[2]*v1[2]));
-                    mag2=Math.sqrt((v3[0]*v3[0])+(v3[1]*v3[1])+(v3[2]*v3[2]));
+                    mag1=Math.sqrt(Math.pow(v1[0],2)+Math.pow(v1[1],2)+Math.pow(v1[2],2));
+                    mag2=Math.sqrt(Math.pow(v3[0],2)+Math.pow(v3[1],2)+Math.pow(v3[2],2));
 
                     noEx=mag1*mag2;
                     txtNoEx.setText(Double.toString(noEx));
@@ -95,10 +95,10 @@ public class MainActivity extends AppCompatActivity {
                             (v1[0]*v3[1])-(v3[0]*v1[1])
                     };
 
-                    double res1 = Math.sqrt((r1[0]*r1[0])+(r1[1]*r1[1])+(r1[2]*r1[2]));
-                    double res2 = Math.sqrt((r2[0]*r2[0])+(r2[1]*r2[1])+(r2[2]*r2[2]));
+                    double res1 = Math.sqrt(Math.pow(r1[0],2)+Math.pow(r1[1],2)+Math.pow(r1[2],2));
+                    double res2 = Math.sqrt((r2[0]*r2[0])-(r2[1]*r2[1])+(r2[2]*r2[2]));
 
-                    double ex=res1+res2;
+                    double ex=res1;
                     txtEx.setText(Double.toString(ex));
                     double dif=noEx-ex;
                     txtDif.setText(Double.toString(dif));
