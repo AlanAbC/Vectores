@@ -1,13 +1,17 @@
 package com.example.alanabundis.vectores;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,12 +39,32 @@ public class MainActivity extends AppCompatActivity {
     double p3i;
     double p3j;
     double p3k;
-
     double mag1;
     double mag2;
     double noEx;
+    double ex;
+    double dif;
     Button calcular;
+    ProgressBar bar;
+    int flag;
+    Handler handler = new Handler(){
+       @Override
+        public void handleMessage(Message msg){
+           if (flag == 10){
+               Log.i("bandera",flag + "Calculando");
+               txtNoEx.setText("Area no exacta: "+ Double.toString(noEx));
+               txtEx.setText("Area Exacta: "+ Double.toString(ex));
+               txtDif.setText("Diferencia: "+ Double.toString(dif));
+               flag=0;
+           }else{
+               bar.incrementProgressBy(10);
+               flag ++;
+               Log.i("bandera", flag + "");
+           }
 
+
+       }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     Ep3i=(EditText)findViewById(R.id.p3i);
                     Ep3j=(EditText)findViewById(R.id.p3j);
                     Ep3k=(EditText)findViewById(R.id.p3k);
-
+                    bar = (ProgressBar)findViewById(R.id.progress);
                     p1i=Double.parseDouble(Ep1i.getText().toString());
                     p1j=Double.parseDouble(Ep1j.getText().toString());
                     p1k=Double.parseDouble(Ep1k.getText().toString());
@@ -72,36 +96,86 @@ public class MainActivity extends AppCompatActivity {
                     p3i=Double.parseDouble(Ep3i.getText().toString());
                     p3j=Double.parseDouble(Ep3j.getText().toString());
                     p3k=Double.parseDouble(Ep3k.getText().toString());
+                    bar.setVisibility(View.VISIBLE);
 
-                    double[] v1={p1i-p2i,p1j-p2j,p1k-p2k};
-                    double[] v2={p2i-p3i,p2j-p3j,p2k-p3k};
-                    double[] v3={p1i-p3i,p1j-p3j,p1k-p3k};
+                    Thread hilo = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            double[] v1={p1i-p2i,p1j-p2j,p1k-p2k};
+                            handler.sendMessage(handler.obtainMessage());
+                            double[] v2={p2i-p3i,p2j-p3j,p2k-p3k};
+                            handler.sendMessage(handler.obtainMessage());
+                            double[] v3={p1i-p3i,p1j-p3j,p1k-p3k};
+                            handler.sendMessage(handler.obtainMessage());
 
 
-                    mag1=Math.sqrt(Math.pow(v1[0],2)+Math.pow(v1[1],2)+Math.pow(v1[2],2));
-                    mag2=Math.sqrt(Math.pow(v3[0],2)+Math.pow(v3[1],2)+Math.pow(v3[2],2));
+                            mag1=Math.sqrt(Math.pow(v1[0],2)+Math.pow(v1[1],2)+Math.pow(v1[2],2));
+                            handler.sendMessage(handler.obtainMessage());
+                            mag2=Math.sqrt(Math.pow(v3[0],2)+Math.pow(v3[1],2)+Math.pow(v3[2],2));
+                            handler.sendMessage(handler.obtainMessage());
 
-                    noEx=mag1*mag2;
-                    txtNoEx.setText(Double.toString(noEx));
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                Toast.makeText(getApplicationContext(), "Ocurrio algun error", Toast.LENGTH_SHORT).show();
+                            }
 
-                    double[] r1= {
-                            (v1[1]*v2[2])-(v2[1]*v1[2]),
-                            (v1[0]*v2[2])-(v2[0]*v1[2]),
-                            (v1[0]*v2[1])-(v2[0]*v1[1])
-                    };
-                    double[] r2={
-                            (v1[1]*v3[2])-(v3[1]*v1[2]),
-                            (v1[0]*v3[2])-(v3[0]*v1[2]),
-                            (v1[0]*v3[1])-(v3[0]*v1[1])
-                    };
+                            noEx=mag1*mag2;
+                            handler.sendMessage(handler.obtainMessage());
 
-                    double res1 = Math.sqrt(Math.pow(r1[0],2)+Math.pow(r1[1],2)+Math.pow(r1[2],2));
-                    double res2 = Math.sqrt((r2[0]*r2[0])-(r2[1]*r2[1])+(r2[2]*r2[2]));
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                Toast.makeText(getApplicationContext(), "Ocurrio algun error", Toast.LENGTH_SHORT).show();
+                            }
 
-                    double ex=res1;
-                    txtEx.setText(Double.toString(ex));
-                    double dif=noEx-ex;
-                    txtDif.setText(Double.toString(dif));
+                            double[] r1= {
+                                    (v1[1]*v2[2])-(v2[1]*v1[2]),
+                                    (v1[0]*v2[2])-(v2[0]*v1[2]),
+                                    (v1[0]*v2[1])-(v2[0]*v1[1])
+                            };
+                            handler.sendMessage(handler.obtainMessage());
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                Toast.makeText(getApplicationContext(), "Ocurrio algun error", Toast.LENGTH_SHORT).show();
+                            }
+
+                            double[] r2={
+                                    (v1[1]*v3[2])-(v3[1]*v1[2]),
+                                    (v1[0]*v3[2])-(v3[0]*v1[2]),
+                                    (v1[0]*v3[1])-(v3[0]*v1[1])
+                            };
+                            handler.sendMessage(handler.obtainMessage());
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                Toast.makeText(getApplicationContext(), "Ocurrio algun error", Toast.LENGTH_SHORT).show();
+                            }
+
+
+                            double res1 = Math.sqrt(Math.pow(r1[0],2)+Math.pow(r1[1],2)+Math.pow(r1[2],2));
+                            handler.sendMessage(handler.obtainMessage());
+                            double res2 = Math.sqrt((r2[0]*r2[0])-(r2[1]*r2[1])+(r2[2]*r2[2]));
+                            handler.sendMessage(handler.obtainMessage());
+
+                            ex=res1;
+                            handler.sendMessage(handler.obtainMessage());
+
+                            dif=noEx-ex;
+                            handler.sendMessage(handler.obtainMessage());
+
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                Toast.makeText(getApplicationContext(), "Ocurrio algun error", Toast.LENGTH_SHORT).show();
+                            }
+                            handler.sendMessage(handler.obtainMessage());
+                            handler.sendMessage(handler.obtainMessage());
+
+                        }
+                    });
+                    hilo.start();
                 }catch (Exception ex){
                     Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
 
